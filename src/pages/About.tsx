@@ -5,25 +5,25 @@ const About = () => {
   const stats = [
     {
       icon: Users,
-      value: '50K+',
+      value: '5K+',
       label: 'Happy Customers',
       description: 'Trust our product recommendations'
     },
     {
       icon: Award,
-      value: '500+',
+      value: '50+',
       label: 'Curated Products',
       description: 'From successful Shark Tank entrepreneurs'
     },
     {
       icon: TrendingUp,
-      value: '₹10L+',
+      value: '₹1L+',
       label: 'Savings Generated',
       description: 'Through exclusive deals and offers'
     },
     {
       icon: Target,
-      value: '100+',
+      value: '10+',
       label: 'Brand Partners',
       description: 'Featured on Shark Tank India'
     }
@@ -171,42 +171,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Meet Our Team</h2>
-            <p className="text-xl text-muted-foreground">
-              The passionate people behind SharkDeals
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {team.map((member, index) => (
-              <Card key={index} className="text-center bg-gradient-card shadow-card hover:shadow-card-hover transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="w-24 h-24 bg-muted rounded-full mx-auto mb-4 overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/placeholder.svg';
-                      }}
-                    />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
-                  <p className="text-primary font-medium mb-3">{member.role}</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {member.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Team Section removed as requested */}
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-hero">

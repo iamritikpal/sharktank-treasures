@@ -36,25 +36,25 @@ const Home = () => {
   const stats = [
     {
       icon: Star,
-      value: '500+',
+      value: '50+',
       label: 'Featured Products',
       description: 'Curated from Shark Tank'
     },
     {
       icon: TrendingUp,
-      value: '₹10L+',
+      value: '₹1L+',
       label: 'Savings Generated',
       description: 'For our community'
     },
     {
       icon: Users,
-      value: '50K+',
+      value: '5K+',
       label: 'Happy Customers',
       description: 'Trust our recommendations'
     },
     {
       icon: ShoppingBag,
-      value: '100+',
+      value: '10+',
       label: 'Brand Partners',
       description: 'From Shark Tank India'
     }
@@ -159,7 +159,7 @@ const Home = () => {
               <Button size="lg" asChild className="bg-white text-primary hover:bg-white/90">
                 <Link to="/products">Start Shopping Now</Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="border-white/20 text-white hover:bg-white/10">
+              <Button size="lg" variant="default" asChild className="border-white text-white hover:bg-white/10">
                 <Link to="/about">Learn More About Us</Link>
               </Button>
             </div>

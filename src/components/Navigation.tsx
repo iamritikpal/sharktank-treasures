@@ -21,8 +21,7 @@ const Navigation = () => {
     { path: '/', label: 'Home', icon: Home },
     { path: '/products', label: 'Products', icon: ShoppingBag },
     { path: '/blogs', label: 'Blogs', icon: BookOpen },
-    { path: '/about', label: 'About', icon: Users },
-    { path: '/contact', label: 'Contact', icon: Mail }
+    { path: '/about', label: 'About', icon: Users }
   ];
 
   const isActivePath = (path: string) => {

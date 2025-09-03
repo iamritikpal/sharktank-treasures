@@ -43,4 +43,38 @@
     "readTime": "8 min read", 
     "category": "Marketing Strategy"
   }
+  ,
+  {
+    "id": 5,
+    "title": "Lenskart's Vision: Disrupting Eyewear in India",
+    "snippet": "How Lenskart built a full-stack eyewear brand with tech-first operations...",
+    "content": "Lenskart transformed the fragmented eyewear market by integrating online convenience with offline assurance. With in-house manufacturing, 3D try-on, and a dense retail footprint, the company delivers consistent quality at scale.\n\nKey levers included:\n\n1. Omnichannel presence: seamless experience across app and stores\n2. Private labels: higher margins with design control\n3. Supply chain: in-house production and smart inventory\n4. Tech moat: 3D facial mapping and digital PD measurements\n\nThe brand continues expanding globally while investing in precision manufacturing and premium segments.",
+    "image": "/images/lenskart-glasses.jpg",
+    "author": "Anita Patel",
+    "date": "2025-01-02",
+    "readTime": "5 min read",
+    "category": "Business Analysis"
+  },
+  {
+    "id": 6,
+    "title": "Sleepy Diapers: Building Trust in Baby Care",
+    "snippet": "From a Shark Tank pitch to a fast-growing D2C baby care brand...",
+    "content": "Sleepy Diapers focused on the fundamentals that matter to parents: comfort, absorption, and skin safety. The team invested in R&D to create breathable layers and secure leak guards while keeping prices accessible.\n\nGrowth highlights:\n\n- Parent-first communication with honest demos\n- Rapid feedback loops from D2C channels\n- Expanding into wipes and rash creams for higher LTV\n\nTrust, consistency, and thoughtful product extensions fuel their momentum.",
+    "image": "/images/sleepy-diapers.jpg",
+    "author": "Priya Sharma",
+    "date": "2024-12-20",
+    "readTime": "4 min read",
+    "category": "Success Stories"
+  },
+  {
+    "id": 7,
+    "title": "boAt Airdopes: India’s True Wireless Phenomenon",
+    "snippet": "Decoding the product-market fit behind boAt’s runaway earbuds success...",
+    "content": "boAt nailed the TWS category by combining strong bass tuning, trendy designs, and aggressive pricing. Limited-edition drops with IPL and music IPs built cultural relevance.\n\nWhat worked:\n\n1. Clear hero features (bass + battery) for the mass market\n2. Reliable Bluetooth and quick pairing UX\n3. High-visibility retail + online domination\n\nResult: a repeat-purchase engine and strong word of mouth across youth cohorts.",
+    "image": "/images/boat-airdopes.jpg",
+    "author": "Tech Analysis Team",
+    "date": "2024-12-15",
+    "readTime": "3 min read",
+    "category": "Product Deep Dive"
+  }
 ]
