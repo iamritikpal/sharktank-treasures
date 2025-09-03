@@ -85,7 +85,7 @@ const About = () => {
                   or learn more about their journeys.
                 </p>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
-                  SharkDeals was born from this need - to create a centralized platform where 
+                  Sharktankinsider was born from this need - to create a centralized platform where 
                   you can discover, learn about, and purchase products from India's most innovative 
                   startups featured on Shark Tank.
                 </p>
