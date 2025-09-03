@@ -19,9 +19,13 @@ services:
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
     ports:
-      - "8081:80"        # Change host port from 80 -> 8081 (avoid conflict)
-      - "8082:8080"      # Traefik dashboard
+      - "8081:80"
+      - "8082:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - web
+
+networks:
+  web:
+    external: true
