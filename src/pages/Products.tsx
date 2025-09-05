@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, Grid, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +20,7 @@ interface Product {
 }
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,24 +28,60 @@ const Products = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('name');
   const [isLoading, setIsLoading] = useState(true);
+  const [urlParamsApplied, setUrlParamsApplied] = useState(false);
 
   useEffect(() => {
-    // Load products
-    fetch('/data/products.json')
-      .then(response => response.json())
-      .then(data => {
-        setProducts(data);
-        setFilteredProducts(data);
-        setIsLoading(false);
-      })
-      .catch(error => {
+    // Load products - first try localStorage (admin edits), then fallback to JSON
+    const loadProducts = () => {
+      try {
+        const savedProducts = localStorage.getItem('admin-products');
+        if (savedProducts) {
+          const data = JSON.parse(savedProducts);
+          setProducts(data);
+          setFilteredProducts(data);
+          setIsLoading(false);
+          
+          // Dispatch event to notify other components
+          window.dispatchEvent(new CustomEvent('productsUpdated', { 
+            detail: { products: data } 
+          }));
+        } else {
+          // Fallback to loading from JSON file
+          fetch('/data/products.json')
+            .then(response => response.json())
+            .then(data => {
+              setProducts(data);
+              setFilteredProducts(data);
+              setIsLoading(false);
+              
+              // Dispatch event to notify other components
+              window.dispatchEvent(new CustomEvent('productsUpdated', { 
+                detail: { products: data } 
+              }));
+            })
+            .catch(error => {
+              console.error('Error loading products:', error);
+              setIsLoading(false);
+            });
+        }
+      } catch (error) {
         console.error('Error loading products:', error);
         setIsLoading(false);
-      });
+      }
+    };
+
+    loadProducts();
   }, []);
 
   useEffect(() => {
     let filtered = products;
+
+    console.log('Filtering products:', {
+      totalProducts: products.length,
+      searchTerm,
+      selectedCategory,
+      sortBy
+    });
 
     // Filter by search term
     if (searchTerm) {
@@ -56,7 +94,14 @@ const Products = () => {
 
     // Filter by category
     if (selectedCategory !== 'all') {
-      filtered = filtered.filter(product => product.category === selectedCategory);
+      console.log('Filtering by category:', selectedCategory);
+      filtered = filtered.filter(product => {
+        const productCategory = product.category;
+        const selectedCategoryDecoded = decodeURIComponent(selectedCategory);
+        const match = productCategory === selectedCategoryDecoded;
+        console.log('Product category:', productCategory, 'Selected (decoded):', selectedCategoryDecoded, 'Match:', match);
+        return match;
+      });
     }
 
     // Sort products
@@ -75,6 +120,69 @@ const Products = () => {
 
     setFilteredProducts(filtered);
   }, [products, searchTerm, selectedCategory, sortBy]);
+
+  // Reset URL params applied flag when searchParams change
+  useEffect(() => {
+    setUrlParamsApplied(false);
+  }, [searchParams]);
+
+  // Apply URL parameters after products are loaded
+  useEffect(() => {
+    if (!isLoading && products.length > 0 && !urlParamsApplied) {
+      const search = searchParams.get('search') || '';
+      const category = decodeURIComponent(searchParams.get('category') || 'all');
+      const sort = searchParams.get('sort') || 'name';
+      const view = (searchParams.get('view') as 'grid' | 'list') || 'grid';
+
+      console.log('Applying URL parameters:', { search, category, sort, view });
+
+      setSearchTerm(search);
+      setSelectedCategory(category);
+      setSortBy(sort);
+      setViewMode(view);
+      setUrlParamsApplied(true);
+    }
+  }, [isLoading, products, searchParams, urlParamsApplied]);
+
+  // Function to update URL parameters
+  const updateURLParams = (updates: Record<string, string>) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value && value !== 'all' && value !== 'name') {
+        // Properly encode the value for URL
+        newSearchParams.set(key, encodeURIComponent(value));
+      } else {
+        newSearchParams.delete(key);
+      }
+    });
+    
+    setSearchParams(newSearchParams, { replace: true });
+  };
+
+  // Function to handle search term changes
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    updateURLParams({ search: value });
+  };
+
+  // Function to handle category changes
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    updateURLParams({ category: value });
+  };
+
+  // Function to handle sort changes
+  const handleSortChange = (value: string) => {
+    setSortBy(value);
+    updateURLParams({ sort: value });
+  };
+
+  // Function to handle view mode changes
+  const handleViewModeChange = (mode: 'grid' | 'list') => {
+    setViewMode(mode);
+    updateURLParams({ view: mode });
+  };
 
   const categories = ['all', ...Array.from(new Set(products.map(p => p.category)))];
 
@@ -111,7 +219,7 @@ const Products = () => {
                 <Input
                   placeholder="Search by name, description, or category..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   className="pl-10"
                 />
               </div>
@@ -120,7 +228,7 @@ const Products = () => {
             {/* Category Filter */}
             <div>
               <label className="text-sm font-medium mb-2 block">Category</label>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <Select value={selectedCategory} onValueChange={handleCategoryChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -137,7 +245,7 @@ const Products = () => {
             {/* Sort By */}
             <div>
               <label className="text-sm font-medium mb-2 block">Sort By</label>
-              <Select value={sortBy} onValueChange={setSortBy}>
+              <Select value={sortBy} onValueChange={handleSortChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
@@ -156,14 +264,14 @@ const Products = () => {
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'outline'}
                   size="icon"
-                  onClick={() => setViewMode('grid')}
+                  onClick={() => handleViewModeChange('grid')}
                 >
                   <Grid className="w-4 h-4" />
                 </Button>
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'outline'}
                   size="icon"
-                  onClick={() => setViewMode('list')}
+                  onClick={() => handleViewModeChange('list')}
                 >
                   <List className="w-4 h-4" />
                 </Button>
@@ -192,6 +300,9 @@ const Products = () => {
             <Button onClick={() => {
               setSearchTerm('');
               setSelectedCategory('all');
+              setSortBy('name');
+              setViewMode('grid');
+              updateURLParams({ search: '', category: 'all', sort: 'name', view: 'grid' });
             }}>
               Clear Filters
             </Button>

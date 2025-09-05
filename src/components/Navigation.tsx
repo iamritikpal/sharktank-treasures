@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShoppingBag, BookOpen, Home, Users, Mail } from 'lucide-react';
+import { Menu, X, ShoppingBag, BookOpen, Home, Users, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
@@ -49,7 +49,7 @@ const Navigation = () => {
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
               <ShoppingBag className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span>SharkDeals</span>
+            <span>SharkTankInsider</span>
           </Link>
 
           {/* Desktop Navigation */}

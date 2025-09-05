@@ -184,14 +184,7 @@ const About = () => {
               Be part of India's growing community of entrepreneurship enthusiasts. 
               Discover amazing products and inspiring stories.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="mailto:hello@sharkdeals.com"
-                className="inline-flex items-center justify-center px-8 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-white/90 transition-colors"
-              >
-                Get in Touch
-              </a>
-            </div>
+            
           </div>
         </div>
       </section>

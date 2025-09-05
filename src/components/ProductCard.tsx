@@ -51,7 +51,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              target.src = '/placeholder.svg';
+              // Only fallback to placeholder if it's not a data URL
+              if (!product.image.startsWith('data:')) {
+                target.src = '/placeholder.svg';
+              }
             }}
           />
         </div>
